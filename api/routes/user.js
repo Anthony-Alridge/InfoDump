@@ -5,10 +5,10 @@ const router = express.Router();
 const userServices = require('../services/userServices');
 
 router.post('/register', function(req, res) {
-  userServices.create(req.body.email, req.body.password)
+  userServices.create(req.body.username, req.body.password)
         .then(function(user) {
             const token = jwt.sign(
-              {email: user.email}, config.secret, {expiresIn: '7d'});
+              {username: user.username}, config.secret, {expiresIn: '7d'});
             res.send({token: token});
         })
         .catch(function (err) {
@@ -18,10 +18,10 @@ router.post('/register', function(req, res) {
 });
 
 router.post('/authenticate', function(req, res) {
-  userServices.authenticate(req.body.email, req.body.password)
+  userServices.authenticate(req.body.username, req.body.password)
     .then(function(user) {
       const token = jwt.sign(
-        {email: user.email}, config.secret, {expiresIn: '7d'});
+        {username: user.username}, config.secret, {expiresIn: '7d'});
       res.send({token: token});
     }, function(err) {
       res.status(401).send(err);
