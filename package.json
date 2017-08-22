@@ -1,0 +1,33 @@
+{
+  "name": "infodump",
+  "version": "0.0.0",
+  "description": "Match users with houses.",
+  "main": "server.js",
+  "author": "Anthony Alridge",
+  "scripts": {
+    "migrate-dev": "knex migrate:latest --env development",
+    "migrate-test": "knex migrate:latest --env test",
+    "server": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.4.3",
+    "bookshelf": "0.10.4",
+    "bookshelf-secure-password": "^3.0.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "express-session": "1.4.0",
+    "jsonwebtoken": "^7.4.3",
+    "knex": "0.13.0",
+    "method-override": "^2.1.3",
+    "morgan": "^1.1.1",
+    "mysql": "^2.14.1",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "chai-http": "^3.0.0",
+    "eslint": "2.13.1",
+    "mocha": "^3.5.0",
+    "nodemon": "^1.11.0"
+  }
+}

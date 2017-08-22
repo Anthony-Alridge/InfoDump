@@ -1,0 +1,64 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12 homepage-top-banner">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-xs-6">
+            <instant-search></instant-search>
+          </div>
+
+          <div class="col-xs-12">
+            <!-- REGISTRATION FORM -->
+            <div class="form">
+              <div class="register" ng-if="showRegister">
+              <h5>Register now to benefit from increased productivity.</h5>
+              <form>
+                <input type="text" placeholder="username">
+                <br><br>
+                <input type="password" placeholder="password">
+                <br><br>
+                <input type="password" placeholder="confirm password">
+                <br><br>
+                <button class="btn-success" type="button">Register</button>
+              </form>
+              <p> Already have an account?
+                <button class="form-link" ng-click="toggleForms()">
+                  Sign in now.
+                </button>
+              </p>
+             </div>
+
+             <div class="register" ng-if="!showRegister">
+             Login now to benefit from increased productivity.
+             <form>
+               <input type="text" placeholder="username">
+               <br><br>
+               <input type="password" placeholder="password">
+               <br><br>
+               <button class="btn-success" type="button">Sign in</button>
+             </form>
+             <p> Don't have an account?
+               <button class="form-link" ng-click="toggleForms()">
+                 Sign up now.
+               </button>
+             </p>
+            </div>
+
+            </div>
+
+          </div> <!--/COL-->
+        </div> <!--/ROW-->
+      </div> <!--/CONTAINER-->
+    </div> <!-- /HOMEPAGE-TOP-BANNER-->
+  </div> <!-- /ROW-->
+
+  <div class="greeting">
+    <h1> Create an account now to organise your learning and
+    boost your productivity. Infodump allows you to
+    organise your topics, create to do lists, collaborate with
+    other learners and more. </h1>
+  </div>
+
+</div> <!-- /CONTAINER-->

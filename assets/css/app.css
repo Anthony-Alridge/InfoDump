@@ -1,0 +1,54 @@
+/*CONTAINS ALL THE IN-HOUSE CSS FOR infodump*/
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+html, body {
+  font-family: "Roboto", "Lato", Arial;
+  height: 100%;
+  width: 100%;
+  background-color: #ADD8C7;
+}
+
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  margin-left: 20%;
+  margin-right: 20%;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+}
+
+.form input {
+  border: 0;
+  background: #F2F2F2;
+  padding: 1em;
+  box-sizing: border-box;
+  font-size: 15px;
+  width: 100%;
+}
+
+.form button {
+  border: 0;
+  padding: 0.5em;
+  text-transform: uppercase;
+  width: 100%;
+}
+.form p {
+  font-size: 10px;
+}
+.form-link {
+  padding: 0;
+  width: auto;
+  text-transform: none;
+  border: none;
+  background: none;
+  color: #5EC22C;
+  text-decoration: underline;
+}
+
+.greeting {
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  color: white;
+}
