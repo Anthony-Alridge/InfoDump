@@ -69,7 +69,9 @@
                </div>
 
                <br><br>
-               <button ng-click="loginUser(loginForm)" class="btn-success" type="button">Sign in</button>
+               <button ng-click="loginUser(loginForm)"
+                       ng-disabled="loginForm.$invalid && loginForm.$pristine"
+                       class="btn-success" type="button">Sign in</button>
              </form>
              <p> Don't have an account?
                <button class="form-link" ng-click="toggleForms()">
