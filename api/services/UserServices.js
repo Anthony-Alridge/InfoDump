@@ -5,11 +5,19 @@ const User = require('../models/user');
  *
  * @returns {Promise.<User>} A promise resolving to the newly registered User, or rejected with an error.
  */
-var create = function(username, password) {
-  let user = new User({ username: username, password: password })
-
-  return user.save()
-};
+ var create = function(username, password) {
+   return User.forge({username: username})
+   .fetch()
+   .then(function(user) {
+     if (!user) {
+       user = new User({username: username, password: password});
+       return user.save();
+     }
+      var error = new Error("UsernameTakenError");
+      error.name = "UsernameTakenError";
+      return Promise.reject(error);
+   })
+ };
 
 /**
  * Sign in with a given username, password combination

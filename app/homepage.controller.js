@@ -3,11 +3,11 @@ var infodump = angular.module("infodump");
 
 infodump.controller("HomepageCtrl", HomepageCtrl);
 
-HomepageCtrl.$inject = ["$scope"];
+HomepageCtrl.$inject = ["$scope", "$http", "$parse"];
 
-function HomepageCtrl($scope) {
-  const REGISTRATION_URL = 'api/register';
-  const LOGIN_URL = 'api/authenticate';
+function HomepageCtrl($scope, $http, $parse) {
+  const REGISTRATION_URL = 'api/users/register';
+  const LOGIN_URL = 'api/users/authenticate';
 
   // Toggles for the authentication forms.
   $scope.showRegister = true;
@@ -16,27 +16,19 @@ function HomepageCtrl($scope) {
   };
 
  // Form controls.
-  $scope.registerUser = function() {
-    const password = $scope.registerPass;
-    const password2 = $scope.registerPassCon;
-    const username = $scope.registerUsername;
-    $http.post(REGISTRATION_URL, {
-      email:email,
-      password: password
-    })
-      .success(function(data,status) {
-        console.log("Account created " + data);
-      })
-      .error(function(data,status) {
-        // There was some error (e.g. email taken) which
-        // needs to be displayed to the user.
-      });
-  };
+ $scope.register = {};
+ $scope.login = {};
+ $scope.serverMessage = {};
 
-  $scope.loginUser = function() {
-    const password = $scope.loginPassword;
-    const username = $scope.loginUsername;
-    $http.post(LOGIN_URL, {
+ var processServerMessages = function(form, serverMessage) {
+   $scope.serverMessage = serverMessage;
+   form[serverMessage.location].$setValidity(serverMessage.type, false);
+ };
+
+  $scope.registerUser = function(form) {
+    const password = $scope.register.password;
+    const username = $scope.register.username;
+    $http.post(REGISTRATION_URL, {
       username: username,
       password: password
     })
@@ -44,8 +36,28 @@ function HomepageCtrl($scope) {
         console.log("Account created " + data);
       })
       .error(function(data,status) {
-        // there was some error (e.g. email taken) which
+        console.log(data);
+        // There was some error (e.g. username taken) which
         // needs to be displayed to the user.
+        processServerMessages(form, data);
+      });
+  };
+
+  $scope.loginUser = function(form) {
+    const password = $scope.login.password;
+    const username = $scope.login.username;
+    $http.post(LOGIN_URL, {
+      username: username,
+      password: password
+    })
+      .success(function(data,status) {
+        console.log("Account logged in " + data);
+      })
+      .error(function(data,status) {
+        // there was some error (e.g. username taken) which
+        // needs to be displayed to the user.
+        console.log(data);
+        processServerMessages(form, data);
       });
   };
 }
