@@ -10,19 +10,25 @@ const errors = {
     message: "The supplied password is incorrect.",
     location: "password"
   },
-  UsernameTakenError: {
-    type: "UsernameTakenError",
+  usernameTakenError: {
+    type: "usernameTakenError",
     message: "The supplied username is already taken.",
     location: "username"
   }
-}
+};
+
+function getJWT(payload) {
+  return jwt.sign(
+    payload, config.secret, {expiresIn: '7d'});
+};
+
 router.post('/register', function(req, res) {
   userServices.create(req.body.username, req.body.password)
-        .then(function(user) {
-            const token = jwt.sign(
-              {username: user.username}, config.secret, {expiresIn: '7d'});
-            res.send({token: token});
+        .then(function(payload) {
+  console.log(payload);
+            res.send({token: getJWT(payload)});
         }, function(err) {
+  console.log(err);
            res.status(401).send(errors[err.name]);
         })
         .catch(function (err) {
@@ -33,11 +39,9 @@ router.post('/register', function(req, res) {
 router.post('/authenticate', function(req, res) {
   userServices.authenticate(req.body.username, req.body.password)
     .then(function(user) {
-      const token = jwt.sign(
-        {username: user.username}, config.secret, {expiresIn: '7d'});
-      res.send({token: token});
+           focusServices.createRootFocus(user.id)
+            .then((root) => res.send({token: getJWT({id: root.get('user_id'), root_id: root.id})}))
     }, function(err) {
-
       res.status(401).send(errors[err.name]);
     })
     .catch(function(err) {

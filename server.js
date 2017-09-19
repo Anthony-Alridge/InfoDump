@@ -8,8 +8,28 @@ var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var path = require('path');
 var config = require('./config');
+var jwt = require('jsonwebtoken');
+
     // configuration =================
 var port = process.env.PORT || 80;
+
+var jwt_middleware = function(req, res, next) {
+  var token = req.headers['authorization'];
+  if (token) {
+    jwt.verify(token, config.secret, function(err, decoded) {
+      if (err) {
+        res.status(401).send();
+      } else {
+        req.user = decoded;
+        next();
+      }
+    });
+  } else {
+    console.log('NO TOKEN');
+    res.status(403).send();
+  }
+};
+
 
 //THIS DEFINES MIDDLEWARE FOR USE IN THE APP. BASICALLY, WHEN A
 //REQUEST IS MADE TO THE SERVE THE REQUEST WILL PASS THROUGH
@@ -28,18 +48,11 @@ app.use(methodOverride());
 app.use(cookieParser());
 app.use(session({secret: config.secret}));
 
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.json({
-      message: err.message,
-      error: err
-    });
-  });
-};
 
 // ROUTES
-app.use('/api/users', require('./api/routes/user'));
+app.use('/api/auth', require('./api/routes/auth'));
+
+app.use('/api/focus', jwt_middleware, require('./api/routes/focus'));
 
 //application ------------------------------------------------
 //app.get('/token', function (req, res) {
