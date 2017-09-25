@@ -7,9 +7,10 @@ exports.getFocus = function(focus_id)  {
     .fetch({withRelated: ['focus']})
     .then(function(focus) {
       focusSummary.name = focus.get('name');
+      focusSummary.id = focus_id;
       focusSummary.child_focuses = [];
       focus.related('focus').forEach(function (child) {
-        focusSummary.child_focuses.push({name: child.get('name')});
+        focusSummary.child_focuses.push({name: child.get('name'), id:child.id});
       });
       /*
       console.log(focus_id);

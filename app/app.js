@@ -1,6 +1,6 @@
 /*APP FILE FOR ANGULAR JS*/
 // declare the module
-var infodump = angular.module("infodump", ['ngRoute', 'ngMessages', 'ng']);
+var infodump = angular.module("infodump", ['ngRoute', 'ngMessages', 'ng', 'ui.bootstrap']);
 /*FRONTEND ROUTING LOGIC FOR ANGULAR JS*/
 infodump.factory('sessionService', function sessionServiceFactory() {
   // TODO: methods for api calls here.

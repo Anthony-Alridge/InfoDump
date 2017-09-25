@@ -52,11 +52,9 @@ router.put('/:id', function(req, res) {
 router.post('/', function(req, res) {
   focusServices.createFocus(req.body.parent_focus_id, req.body.name)
   .then(function (focus) {
-    console.log(focus.toJSON());
-   res.status(200).send();
+   res.status(200).send({name: focus.get('name'), id:focus.id});
   })
   .catch(function(err) {
-    console.log(err.message);
    res.status(400).send(err.message);
   })
 });

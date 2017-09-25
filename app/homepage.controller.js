@@ -1,13 +1,14 @@
 /* Controller for the application's homepage */
 var infodump = angular.module("infodump");
-
+// TODO: When server errors returned the form is inactivated.
 infodump.controller("HomepageCtrl", HomepageCtrl);
 
-HomepageCtrl.$inject = ["$scope", "$http", "$parse"];
+HomepageCtrl.$inject = ["$scope", "$http", "$parse", "$location",
+  "sessionService"];
 
-function HomepageCtrl($scope, $http, $parse) {
-  const REGISTRATION_URL = 'api/users/register';
-  const LOGIN_URL = 'api/users/authenticate';
+function HomepageCtrl($scope, $http, $parse, $location, sessionService) {
+  const REGISTRATION_URL = 'api/auth/register';
+  const LOGIN_URL = 'api/auth/authenticate';
 
   // Toggles for the authentication forms.
   $scope.showRegister = true;
@@ -34,6 +35,8 @@ function HomepageCtrl($scope, $http, $parse) {
     })
       .success(function(data,status) {
         console.log("Account created " + data);
+        sessionService.login(data.token);
+        $location.path('/focus_dashboard')
       })
       .error(function(data,status) {
         console.log(data);
@@ -52,6 +55,8 @@ function HomepageCtrl($scope, $http, $parse) {
     })
       .success(function(data,status) {
         console.log("Account logged in " + data);
+        sessionService.login(data.token);
+        $location.path('/focus_dashboard')
       })
       .error(function(data,status) {
         // there was some error (e.g. username taken) which

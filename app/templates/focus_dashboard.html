@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+
+  <div class="col-md-12">
+    <div class="focus-container">
+      <div class="title clearfix">
+              <h1 class="pull-left"> SUB FOCUSES </h1>
+              <button class="pull-right" ng-click="showCreateFocusModal()">
+                    <span class="glyphicon glyphicon-plus" style='font-size:20px'></span>
+              </button>
+      </div>
+      <p ng-if='focus.child_focuses.length < 1'>
+        It looks like you don't have any sub focuses yet. Adding a sub focus
+        can help keep your links organised. Click the plus button above to
+        create one now.
+      </p>
+        <div ng-repeat="child in focus.child_focuses"  ng-click="getFocusById(child.id)" class='child-focus'>
+          {{child.name}}
+        </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="modals/createFocus">
+  <div class="modal-header">
+    <h3> Create a new focus</h3>
+  </div>
+
+  <div class="modal-body text-center">
+    <form>
+      <input ng-model="newFocus.name" type="text" placeholder="name for sub focus">
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-default" ng-click="create()">Create</button>
+    <button class="btn btn-default" ng-click="cancel()">cancel</button>
+  </div>
+</script>
