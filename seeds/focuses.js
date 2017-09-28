@@ -27,6 +27,13 @@ exports.seed = function(knex, Promise) {
             return knex('focuses') .insert({
                 name:'root_child',
                 focus_id: 1
+            })
+            .then(function(id) {
+              return knex('resources').insert({
+                name:'test',
+                url:'www.testurl.com',
+                focus_id: 1
+              })
             });
           })
       });

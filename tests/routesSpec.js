@@ -31,8 +31,9 @@ describe('Routes:\n', function() {
        done();
      });
    });
+   /////-------AUTH ROUTES---------//////
 
-  describe('user routes', function() {
+  describe('auth routes', function() {
 
     describe('/register', function() {
 
@@ -102,7 +103,8 @@ describe('Routes:\n', function() {
     });
 
   });
-
+  /////-------AUTH  ROUTES---------//////
+  /////-------FOCUS ROUTES---------//////
   describe('focus routes', function(done) {
     var userOneToken = null;
     var authHeader = 'authorization'
@@ -142,6 +144,10 @@ describe('Routes:\n', function() {
             res.body.focus.should.have.property('name');
             res.body.focus.child_focuses[0].should.have.property('name');
             res.body.focus.child_focuses[0].name.should.equal('root_child');
+            res.body.focus.should.have.property('resources');
+            res.body.focus.resources.should.be.a('array');
+            res.body.focus.resources[0].name.should.equal('test');
+            res.body.focus.resources[0].url.should.equal('www.testurl.com');
             done();
           });
       });
@@ -181,17 +187,45 @@ describe('Routes:\n', function() {
           });
       });
     });
-/*
-    describe('update', function(done) {
-
-    });
-
-    describe('delete', function(done) {
-      it('should successfully delete the focus and all its children', function(done) {
-       done();
-      });
-    });
-    */
   });
+/////-------FOCUS ROUTES---------//////
+////-----------RESOURCE ROOTS ------------/////
+  describe('resource routes', function(done) {
+    var userOneToken = null;
+    var authHeader = 'authorization';
 
+    beforeEach(function(done) {
+      userOneToken = JWT.sign({id:1, root_id:1},  config.secret);
+      done();
+    });
+
+    describe('create', function(done) {
+      it('should successfully create the resource', function(done) {
+        chai.request(server)
+          .post('/api/resource')
+          .set(authHeader, userOneToken)
+          .send({name: 'new_resource', url:'www.resourceurl.com', focus_id: 1})
+          .end(function(err, res) {
+            res.should.have.status(200);
+            res.body.should.have.property('resource');
+            res.body.resource.should.have.property('id');
+            res.body.resource.should.have.property('name');
+            res.body.resource.should.have.property('url');
+            res.body.resource.name.should.equal('new_resource');
+            res.body.resource.url.should.equal('www.resourceurl.com');
+            res.body.resource.id.should.equal(2);
+            chai.request(server)
+              .get('/api/focus?id=1')
+              .set(authHeader, userOneToken)
+              .send()
+              .end(function(err, res) {
+                res.should.have.status(200);
+               res.body.focus.resources[1].name.should.equal('new_resource');
+                done();
+               });
+           });
+       });
+   });
+});
+///////////------RESOURCE------//////////////
 });

@@ -53,7 +53,7 @@ app.use(session({secret: config.secret}));
 app.use('/api/auth', require('./api/routes/auth'));
 
 app.use('/api/focus', jwt_middleware, require('./api/routes/focus'));
-
+app.use('/api/resource', jwt_middleware, require('./api/routes/resource'));
 //application ------------------------------------------------
 //app.get('/token', function (req, res) {
    // res.send(req.session.token);

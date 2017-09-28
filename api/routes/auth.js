@@ -3,6 +3,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const userServices = require('../services/userServices');
+const focusServices = require('../services/focusServices');
 
 const errors = {
   PasswordMismatchError: {
@@ -25,10 +26,8 @@ function getJWT(payload) {
 router.post('/register', function(req, res) {
   userServices.create(req.body.username, req.body.password)
         .then(function(payload) {
-  console.log(payload);
             res.send({token: getJWT(payload)});
         }, function(err) {
-  console.log(err);
            res.status(401).send(errors[err.name]);
         })
         .catch(function (err) {
@@ -39,12 +38,13 @@ router.post('/register', function(req, res) {
 router.post('/authenticate', function(req, res) {
   userServices.authenticate(req.body.username, req.body.password)
     .then(function(user) {
-           focusServices.createRootFocus(user.id)
-            .then((root) => res.send({token: getJWT({id: root.get('user_id'), root_id: root.id})}))
+           focusServices.getRootFocusId(user.id)
+            .then((rootId) => res.send({token: getJWT({id: user.id, root_id: rootId})}))
     }, function(err) {
       res.status(401).send(errors[err.name]);
     })
     .catch(function(err) {
+      console.log(err);
       res.status(400).send(err);
     });
 });

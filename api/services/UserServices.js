@@ -6,7 +6,6 @@ const focusServices = require('./focusServices');
  * @returns {Promise.<User>} A promise resolving to the newly registered User, or rejected with an error.
  */
  var create = function(username, password) {
-   console.log('creating user');
    return User.forge({username: username})
    .fetch()
    .then(function(user) {
@@ -20,7 +19,6 @@ const focusServices = require('./focusServices');
              });
          });
      }
-     console.log('name taken');
       var error = new Error("UsernameTakenError");
       error.name = "UsernameTakenError";
       return Promise.reject(error);
@@ -39,20 +37,6 @@ var authenticate = function(username, password) {
       return user.authenticate(password)
     })
 };
-
-
-
-var updateFocus = function(focusId, properties) {
-  return Focus
-    .forge({id: focusId})
-    .fetch()
-    .then(function(focus) {
-      return focus.save(properties);
-    })
-};
-
-
-
 
 
 exports.create = create;
